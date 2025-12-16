@@ -1,70 +1,22 @@
-# Getting Started with Create React App
+Функциональные требования по работе приложения:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+При нажатии на кнопку Далее происходит переход к следующему шагу. Если выбран последний шаг, то текст на кнопке заменяется на Начать сначала и при клике на нее устанавливается самый первый шаг.
+При нажатии на кнопку Назад происходит переход к предыдущему шагу, но при условии, что активен не первый шаг (в этом случае кнопка заблокирована).
+При нажатии на цифру конкретного шага (круглую кнопку) происходит переход к соответствующему шагу. Требования по состоянию кнопок из предыдущих двух пунктов также должны выполняться. Например, если был выбран первый шаг, кнопка Назад также должна быть заблокирована.
 
-## Available Scripts
+Вам дана готовая верстка, а также заготовка компонента: ссылка. Ваша задача реализовать логику внутри файла app.js, соответствующую требованиям выше.
 
-In the project directory, you can run:
+Пояснения и подсказки:
 
-### `npm start`
+Подготовка проекта. Переместите данную папку src в шаблон приложения, который мы подготовили в первом уроке (с настроенными ESLint, Prettier и EditorConfig). Убедитесь, что приложение запускается и разметка выводится на экран.
+Заготовленные данные. В компоненте App импортирован data из файла data.json. В нем содержится заготовленный массив с данными для приложения — используйте его для вывода шагов и контента каждого шага.
+Подготовьте несколько состояний. Рекомендуем определить минимум 2 состояния с помощью useState():
+steps — массив, в качестве значения по умолчанию используйте импортированный data из файла data.json.
+activeIndex — число (индекс) определяющее активный шаг. По умолчанию 0.
+Обработчики. Рекомендуем определить несколько обработчиков: назад, вперед, начать сначала. Они будут срабатывать при клике на соответствующие кнопки. Внутри обработчиков обновляйте состояние activeIndex.
+Флаги. Также для удобства рекомендуем создать 2 переменных логического типа:
+Находимся ли мы на первом шаге.
+Находимся ли мы на последнем шаге.
+Используя их в JSX разметке, можно выводить соответствующий контент в зависимости от этих двух условий. Например, блокировать кнопку Назад на первом шаге. Для определения значений этих переменных можно использовать массив steps и активный индекс activeIndex.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Вывод списка шагов. Шаги необходимо вывести циклично с помощью массива steps. CSS-класс styles['steps-item'] должен быть у всех шагов. Класс styles.active только у текущего активного шага, а styles.done у всех тех, которые были выполнены и также у активного. Для налядности можете взглянуть, как добавлены эти классы сейчас в компоненте App. Вам нужно будет сделать так, чтобы эти классы добавлялись автоматически в зависимости от текущего активного шага. Добавьте соответствующую проверку, когда будете выводить массив шагов. Для сравнения вам потребуется активный индекс (activeIndex) и индекс итерируемого шага (второй параметр в методе map()).
