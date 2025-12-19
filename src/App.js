@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './app.module.css';
 import data from './data.json';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
 
 export const App = () => {
 	const [steps] = useState(data);
