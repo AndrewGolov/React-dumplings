@@ -1,55 +1,66 @@
 import { useState } from 'react';
 import styles from './app.module.css';
 import data from './data.json';
+import { eventWrapper } from '@testing-library/user-event/dist/utils';
 
 export const App = () => {
-	const [steps, setSteps] = useState(data);
-	const [activeIndex, setActiveIndex] = useState();
+	const [steps] = useState(data);
+	const [activeIndex, setActiveIndex] = useState(0);
+	const isFirstStep = activeIndex === 0;
+	const isLastStep = activeIndex === steps.length - 1;
+
 	const nextStep = () => {
-		console.log('Клик по кнопке ДАЛЕЕ');
+		setActiveIndex(activeIndex + 1);
 	};
 	const clickBack = () => {
-		console.log('Клик по кнопке НАЗАД');
+		return setActiveIndex(activeIndex - 1);
 	};
 	const startAgain = () => {
-		console.log('Клик по кнопке начать СНАЧАЛА');
+		setActiveIndex(0);
 	};
 
-	// И определить 3 обработчика: Клик назад, Клик вперед, Начать сначала
-
-	// И 2 переменных-флага — находимся ли мы на первом шаге, и находимся ли на последнем
+	const clickBtnStep = (i) => setActiveIndex(i);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.card}>
 				<h1>Инструкция по готовке пельменей</h1>
 				<div className={styles.steps}>
-					<div className={styles['steps-content']}>
-						{/* Для получения активного контента использйте steps и activeIndex */}
-						Контент соответственный шагу. Сейчас активен шаг 3
-					</div>
+					<div className={styles['steps-content']}>{steps[activeIndex].content}</div>
 					<ul className={styles['steps-list']}>
 						{steps.map((s, i) => {
 							return (
-								<li key={s.id} className={styles['steps-item']}>
-									{/* + styles.done */}
-									{/* Для того, чтобы вычислить необходимый класс используйте активный индекс, текущий индекс, а также тернарные операторы */}
-									<button className={styles['steps-item-button']}>{i + 1}</button>
-									{/* При клике на кнопку установка выбранного шага в качестве активного */}
+								<li
+									key={s.id}
+									className={
+										activeIndex >= i
+											? activeIndex === i
+												? `${styles['steps-item']} ${styles.active}`
+												: `${styles['steps-item']} ${styles.done}`
+											: styles['steps-item']
+									}
+								>
+									<button className={styles['steps-item-button']} onClick={() => clickBtnStep(i)}>
+										{i + 1}
+									</button>
 									{s.title}
 								</li>
 							);
 						})}
 					</ul>
 					<div className={styles['buttons-container']}>
-						<button className={styles.button} onClick={clickBack}>
+						<button className={styles.button} onClick={clickBack} disabled={isFirstStep}>
 							Назад
 						</button>
-						<button className={styles.button} onClick={nextStep}>
-							Далее
-							{/* "Начать сначала", можно сделать этой же кнопкой, просто подменять обработчик и текст в зависимости от условия */}
-							{/* Или заменять всю кнопку в зависимости от условия */}
-						</button>
+						{isLastStep ? (
+							<button className={styles.button} onClick={startAgain}>
+								Начать сначала
+							</button>
+						) : (
+							<button className={styles.button} onClick={nextStep}>
+								Далее
+							</button>
+						)}
 					</div>
 				</div>
 			</div>
