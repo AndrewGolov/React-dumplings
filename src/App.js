@@ -3,7 +3,7 @@ import styles from './app.module.css';
 import data from './data.json';
 
 export const App = () => {
-	const [steps] = useState(data);
+	const [steps, setSteps] = useState(data);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const isFirstStep = activeIndex === 0;
 	const isLastStep = activeIndex === steps.length - 1;
@@ -12,7 +12,9 @@ export const App = () => {
 		setActiveIndex(activeIndex + 1);
 	};
 	const clickBack = () => {
-		return setActiveIndex(activeIndex - 1);
+		if (activeIndex > 0) {
+			setActiveIndex(activeIndex - 1);
+		}
 	};
 	const startAgain = () => {
 		setActiveIndex(0);
